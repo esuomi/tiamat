@@ -41,8 +41,8 @@ public class HealthResource {
             @ApiResponse(responseCode = "200", description = "application is running")
     })
     public Response readinessProbe() {
-        stopPlaceRepository.findAllByOrderByChangedDesc(PageRequest.of(1, 1));
-        return Response.status(Response.Status.OK).build();
+        long totalElements = stopPlaceRepository.findAllByOrderByChangedDesc(PageRequest.of(1, 1)).getTotalElements();
+        return Response.ok().entity(Long.toString(totalElements)).build();
     }
 
     @GET
@@ -51,7 +51,7 @@ public class HealthResource {
             @ApiResponse(responseCode = "200", description = "application is running")
     })
     public Response livenessProbe() {
-        return Response.ok().build();
+        return Response.ok().entity("ok").build();
     }
 
 }
